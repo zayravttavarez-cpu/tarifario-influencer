@@ -79,6 +79,7 @@ Un repositorio público puede ser leído y copiado por cualquiera. Eso no se pue
 - Si quieres que el código no sea público, un repo privado con Pages requiere un plan de pago de GitHub (Pro o superior). Alternativa: dejar solo el sitio público y mantener privada la fuente.
 
 ## Editar contenido
+- **Vigencia:** el texto "Tarifas vigentes: noviembre 2026" aparece dos veces en `index.html` (hero y sección Tarifas, clase `vig`). Cámbialo cada vez que actualices precios; es lo que permite distinguir el sitio oficial de una copia vieja.
 - **Precios:** cada tarifa es una tarjeta `<article class="card">` en `index.html` con dos precios: `<span class="t-e">` (Emprendedor) y `<span class="t-b">` (Empresa). Al cambiar una tarifa base, actualiza también el precio de Empresa y el "por video" o "por Reel" de ambos (Empresa = base + 18% de ITBIS, redondeado a múltiplos de $5).
 - **Licencias y extras:** son tablas en la sección `#licencias`.
 - **Cifras de Instagram:** están en la sección `#alcance`. Cada número usa `data-to`, `data-prefix`, `data-suffix` y `data-dec` para el contador, y el texto visible dentro de la etiqueta debe coincidir. Cambia también la línea de fuente con las fechas.

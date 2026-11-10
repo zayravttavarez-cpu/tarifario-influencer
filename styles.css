@@ -62,6 +62,12 @@ a{color:inherit}
 .hero p.lead{font-size:19px;max-width:32ch;color:#F3E1D3;margin:0 0 24px}
 .handles{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 28px;padding:0;list-style:none}
 .handles li{border:1px solid #C99690;border-radius:999px;padding:6px 16px;font-size:14px;color:#FBF1E6}
+.vig{display:flex;align-items:center;gap:8px;margin:0;font-size:14px;color:var(--muted)}
+.vig .ico{width:18px;height:18px;color:var(--accent)}
+.vig b{font-weight:500;color:var(--ink)}
+.hero .vig{margin:-12px 0 24px;color:#EFC7B8}
+.hero .vig .ico{color:#E8C581}
+.hero .vig b{color:#FBF1E6}
 .hero .cta{margin-bottom:56px}
 .portrait{position:relative;justify-self:end;width:100%;max-width:440px}
 .portrait:before{content:"";position:absolute;inset:-14px -14px 0;border:1px solid rgba(232,197,129,.5);border-radius:240px 240px 0 0;border-bottom:0}
