@@ -59,6 +59,27 @@
     nums.forEach(function (n) { co.observe(n); });
   }
 
+  // Menú hamburguesa (móvil)
+  var nav = document.querySelector('.nav');
+  var burger = document.querySelector('.burger');
+  function setMenu(open) {
+    nav.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  }
+  burger.addEventListener('click', function () { setMenu(!nav.classList.contains('open')); });
+  document.querySelectorAll('.links a').forEach(function (a) {
+    a.addEventListener('click', function () { setMenu(false); });
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+  document.addEventListener('click', function (e) { if (!nav.contains(e.target)) setMenu(false); });
+
+  // Botón de volver arriba
+  var totop = document.querySelector('.totop');
+  function onScroll() { totop.classList.toggle('show', window.scrollY > 600); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
   // PDF: abre todas las cláusulas para imprimir y las restaura después
   var closed = [];
   window.addEventListener('beforeprint', function () {

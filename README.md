@@ -17,8 +17,11 @@ Es una página estática: HTML, CSS y un poco de JavaScript. No necesita instala
 ```
 index.html   contenido (tarifas, licencias, canje, términos, contacto)
 styles.css   colores y tipografías (variables al inicio, claro y oscuro)
-script.js    interruptor de tarifas, tema, contadores, animaciones y PDF
-img/         fotos en WebP, con respaldo JPG
+script.js    menú móvil, interruptor de tarifas, tema, contadores, volver arriba y PDF
+theme-init.js  aplica el tema guardado antes de pintar (evita parpadeo)
+LICENSE      derechos reservados
+.github/CODEOWNERS  quién debe aprobar cambios (ver Seguridad)
+img/         fotos en WebP con respaldo JPG, e og-zayra.jpg (vista previa al compartir)
 fonts/       Cormorant Garamond y Jost (licencia OFL), sin depender de Google Fonts
 ```
 Todas las rutas son relativas, así que funciona igual en `usuario.github.io/repo/` o en un dominio propio. Deben subirse todos los archivos y carpetas, sobre todo `script.js`: sin él la página se ve, pero el interruptor de precios, el modo oscuro y el PDF no funcionan.
@@ -46,11 +49,34 @@ git push
 3. Para usar un dominio propio: en la misma pantalla, escribe el dominio en "Custom domain" y crea el registro DNS que GitHub indica.
 
 ### Después de publicar
-- **Vista previa al compartir:** en el `<head>` de `index.html` hay un comentario. Agrega ahí la etiqueta con la URL absoluta de la foto, por ejemplo:
-  `<meta property="og:image" content="https://TU-USUARIO.github.io/NOMBRE-DEL-REPO/img/zayra-retrato.jpg">`
-  Sin ella, al compartir el enlace por WhatsApp o Instagram no aparece la imagen.
+- **Sitio oficial:** https://zayravttavarez-cpu.github.io/tarifario-influencer/
+- **Vista previa al compartir:** ya está configurada (`og:image`, `og:url`, `twitter:card`) con la imagen `img/og-zayra.jpg` (1200×630). Si cambias el nombre del repo o usas un dominio propio, actualiza esas URLs en el `<head>` de `index.html`. WhatsApp e Instagram guardan la vista previa en caché, así que un cambio puede tardar en verse.
 - **Revisa en la URL publicada:** que carguen las fuentes y las fotos, que el interruptor Emprendedor/Empresa cambie los precios y que el botón de WhatsApp abra el chat.
 - **Si no ves los cambios:** espera un par de minutos y recarga sin caché (Ctrl + F5). Pages tarda en actualizar.
+
+## Seguridad (repositorio público)
+Un repositorio público puede ser leído y copiado por cualquiera. Eso no se puede evitar, pero **solo quien tenga permiso de escritura puede cambiar el sitio publicado**. Lo que hay que cuidar es esa cuenta y esa rama.
+
+**En GitHub (lo haces tú, una sola vez):**
+1. **Verificación en dos pasos (2FA)** en tu cuenta: Settings > Password and authentication. Es lo más importante: si alguien entra a tu cuenta, puede cambiar precios.
+2. **Proteger la rama `main`:** Settings > Branches > Add branch ruleset (o "Add rule") sobre `main`:
+   - Require a pull request before merging.
+   - Require review from Code Owners (ya existe `.github/CODEOWNERS`).
+   - Block force pushes y Restrict deletions.
+3. **No des acceso de escritura** a nadie que no sea de confianza (Settings > Collaborators). Revisa la lista de vez en cuando y quita accesos que no uses.
+4. **Alertas por correo:** en Settings > Notifications, deja activadas las notificaciones de actividad del repo, para enterarte si alguien cambia algo.
+5. **Nunca subas** contraseñas, tokens, cotizaciones privadas ni datos de clientes. Lo que se sube queda en el historial aunque luego se borre.
+
+**Ya incluido en el código:**
+- `Content-Security-Policy` en `index.html`: la página solo carga scripts, estilos, fuentes e imágenes de sí misma. Sin scripts ni fuentes de terceros, no hay dependencias que puedan ser alteradas.
+- Enlaces externos con `rel="noopener"`, sin formularios ni almacenamiento de datos de visitantes.
+- `LICENSE` con "todos los derechos reservados" sobre textos, tarifas e imágenes, para poder reclamar si alguien copia el tarifario.
+- `<link rel="canonical">` hacia el sitio oficial.
+
+**Límites que conviene saber:**
+- GitHub Pages no permite configurar encabezados HTTP. El CSP va en una etiqueta `<meta>`, que no cubre todo (por ejemplo, no impide que otros incrusten la página en un iframe).
+- Cualquiera puede publicar una copia con precios falsos en otro dominio. Para reducir el riesgo: comparte siempre el enlace oficial, indica en el tarifario la fecha de vigencia de las tarifas y confirma por WhatsApp las cotizaciones importantes (las cotizaciones valen 15 días).
+- Si quieres que el código no sea público, un repo privado con Pages requiere un plan de pago de GitHub (Pro o superior). Alternativa: dejar solo el sitio público y mantener privada la fuente.
 
 ## Editar contenido
 - **Precios:** cada tarifa es una tarjeta `<article class="card">` en `index.html` con dos precios: `<span class="t-e">` (Emprendedor) y `<span class="t-b">` (Empresa). Al cambiar una tarifa base, actualiza también el precio de Empresa y el "por video" o "por Reel" de ambos (Empresa = base + 18% de ITBIS, redondeado a múltiplos de $5).
