@@ -2,24 +2,29 @@
   var root = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Interruptor Emprendedor / Empresa
+  // Interruptor Emprendedor / Empresa (solo en el tarifario)
   var tarifas = document.getElementById('tarifas');
-  var seg = tarifas.querySelectorAll('.seg button');
-  seg.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      tarifas.setAttribute('data-tier', btn.getAttribute('data-set'));
-      seg.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+  if (tarifas) {
+    var seg = tarifas.querySelectorAll('.seg button');
+    seg.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        tarifas.setAttribute('data-tier', btn.getAttribute('data-set'));
+        seg.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+      });
     });
-  });
+  }
 
   // Modo claro / oscuro
-  document.querySelector('.theme').addEventListener('click', function () {
-    var dark = root.getAttribute('data-theme') === 'dark' ||
-      (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    var next = dark ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch (e) {}
-  });
+  var theme = document.querySelector('.theme');
+  if (theme) {
+    theme.addEventListener('click', function () {
+      var dark = root.getAttribute('data-theme') === 'dark' ||
+        (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      var next = dark ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+  }
 
   // Aparición al hacer scroll
   var items = document.querySelectorAll('.reveal');
@@ -49,8 +54,16 @@
     }
     requestAnimationFrame(step);
   }
+  // Seguidores: toma el valor de stats.json (misma fuente que el portafolio)
+  fetch('stats.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (s) {
+    if (!s || !(s.followers > 0)) return;
+    document.querySelectorAll('.stats b[data-stat="followers"]').forEach(function (el) {
+      el.dataset.to = s.followers;
+      el.textContent = fmt(s.followers, 0);
+    });
+  }).catch(function () {});
   var nums = document.querySelectorAll('.stats b');
-  if (!reduce && 'IntersectionObserver' in window) {
+  if (nums.length && !reduce && 'IntersectionObserver' in window) {
     var co = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { count(e.target); co.unobserve(e.target); }
@@ -62,23 +75,27 @@
   // Menú hamburguesa (móvil)
   var nav = document.querySelector('.nav');
   var burger = document.querySelector('.burger');
-  function setMenu(open) {
-    nav.classList.toggle('open', open);
-    burger.setAttribute('aria-expanded', String(open));
-    burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  if (nav && burger) {
+    var setMenu = function (open) {
+      nav.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    };
+    burger.addEventListener('click', function () { setMenu(!nav.classList.contains('open')); });
+    document.querySelectorAll('.links a').forEach(function (a) {
+      a.addEventListener('click', function () { setMenu(false); });
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+    document.addEventListener('click', function (e) { if (!nav.contains(e.target)) setMenu(false); });
   }
-  burger.addEventListener('click', function () { setMenu(!nav.classList.contains('open')); });
-  document.querySelectorAll('.links a').forEach(function (a) {
-    a.addEventListener('click', function () { setMenu(false); });
-  });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
-  document.addEventListener('click', function (e) { if (!nav.contains(e.target)) setMenu(false); });
 
   // Botón de volver arriba
   var totop = document.querySelector('.totop');
-  function onScroll() { totop.classList.toggle('show', window.scrollY > 600); }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  if (totop) {
+    var onScroll = function () { totop.classList.toggle('show', window.scrollY > 600); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 
   // PDF: abre todas las cláusulas para imprimir y las restaura después
   var closed = [];
@@ -91,5 +108,6 @@
   window.addEventListener('afterprint', function () {
     closed.forEach(function (d) { d.open = false; });
   });
-  document.getElementById('pdf').addEventListener('click', function () { window.print(); });
+  var pdf = document.getElementById('pdf');
+  if (pdf) pdf.addEventListener('click', function () { window.print(); });
 })();
