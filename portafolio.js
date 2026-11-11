@@ -3,20 +3,17 @@
   var WA = 'https://wa.me/18298492470?text=Hola%20Zayra%2C%20quiero%20ver%20m%C3%A1s%20ejemplos%20de%20contenido.';
   var VIDEOS = {
     skincare: {
-      featured: { id: 'skincare-bases', title: 'Bases de maquillaje con skincare para piel con acné', desc: 'Comparo bases que tratan la piel mientras la cubren: ácido salicílico, vitamina C y SPF 50, y para quién sirve cada una.', tag: 'Fragmento de 1:30' },
+      featured: { id: 'skincare-rutina', title: 'Rutina de skincare', desc: 'Una rutina explicada paso a paso y en lenguaje simple, con el producto en mano y el orden en que se usa.', tag: 'Video completo' },
       others: [
-        { id: 'skincare-acne', title: 'Acné, editado' },
-        { id: 'skincare-acne-corporal', title: 'Acné corporal' },
-        { id: 'skincare-microneedling', title: 'Microneedling' },
-        { id: 'skincare-cabina', title: 'Tratamiento en cabina' }]
+        { id: 'skincare-manchas', title: 'Manchas en la piel · fragmento de 1:30' },
+        { id: 'skincare-resenas', title: 'Reseñas para piel seca' }]
     },
     nutricion: {
-      featured: { id: 'nutricion-habitos', title: 'Tu cabello se cuida también por dentro', desc: 'Alimentación, agua, suplementos y hábitos constantes: por qué el cuero cabelludo es piel y por qué primero hay que estar sanos por dentro.', tag: 'Fragmento de 1:00' },
-      others: []
-    },
-    haircare: {
-      featured: { id: 'haircare-lineas', title: 'Líneas capilares buenas, bonitas y baratas', desc: 'Reseño dos líneas completas, una de reparación y otra de hidratación profunda, y explico por qué no todos los productos le sirven a todas las personas.', tag: 'Fragmento de 1:30' },
-      others: [{ id: 'haircare-cepillo', title: 'Cepillo con aire caliente: resultado final' }]
+      featured: { id: 'nutricion-supermercados', title: 'Recomendaciones de supermercados', desc: 'Qué comprar en el supermercado para cuidar la piel y la salud: producto real, ingredientes y precio para ayudar a decidir.', tag: 'Video completo' },
+      others: [
+        { id: 'nutricion-recorrido', title: 'Recorrido de supermercados · fragmento de 1:30' },
+        { id: 'nutricion-suplementos-1', title: 'Suplementación, parte 1 · fragmento de 1:30' },
+        { id: 'nutricion-suplementos-2', title: 'Suplementación, parte 2 · fragmento de 1:30' }]
     }
   };
   var SHOTS = [
